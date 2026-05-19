@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block title %}Stock MLOps — Aria Mostajeran{% endblock %}
+
+{% block head %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── PAGE HERO ──────────────────────────────────────────────── -->
+<section style="padding-bottom: 0;">
+  <div class="container">
+
+    <a href="/" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to portfolio
+    </a>
+
+    <p class="section-label">Machine Learning · Finance · MLOps</p>
+    <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem;">
+      Stock MLOps<br><span style="color: var(--accent);">Trading Signal System</span>
+    </h1>
+
+    <p style="color: var(--muted); max-width: 680px; line-height: 1.75; margin-bottom: 1.5rem;">
+      An end-to-end ML pipeline that predicts short-term price direction for AAPL, TSLA, and MSFT.
+      XGBoost classification with meta-labeling, walk-forward validation, news sentiment features,
+      and daily automated pipelines on Databricks. Generates LONG / SHORT / NO_TRADE signals
+      with confidence scoring and full backtest evaluation.
+    </p>
+
+    <div style="display:flex; flex-wrap:wrap; gap: 0.75rem; margin-bottom: 1rem;">
+      <a href="https://github.com/ariamostajeran/stock-mlops-databricks" target="_blank" rel="noopener" class="btn btn-primary">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+      <div class="updated-badge">
+        <span class="live-dot"></span>
+        Last updated: {{ data.last_updated }}
+      </div>
+    </div>
+
+    <div class="project-card-tech" style="margin-bottom: 3rem;">
+      {% for tag in ['Python','XGBoost','PySpark','Databricks','Flask','Docker','Delta Lake','Finnhub API','Walk-forward Validation','Meta-labeling'] %}
+        <span class="tech-tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- ── LIVE SIGNALS ───────────────────────────────────────────── -->
+<section>
+  <div class="container">
+    <p class="section-label">Daily Signals</p>
+    <h2 class="section-title">Latest predictions</h2>
+
+    {% for s in data.signals if s.ticker == 'AAPL' %}
+      {% if s.signal == 'LONG' %}
+        {% set card_class = 'long' %}
+        {% set icon = 'fa-arrow-trend-up' %}
+        {% set arrow = '▲' %}
+      {% elif s.signal == 'SHORT' %}
+        {% set card_class = 'short' %}
+        {% set icon = 'fa-arrow-trend-down' %}
+        {% set arrow = '▼' %}
+      {% else %}
+        {% set card_class = 'no-trade' %}
+        {% set icon = 'fa-minus' %}
+        {% set arrow = '→' %}
+      {% endif %}
+
+      <div class="signal-card {{ card_class }}" style="max-width: 360px;">
+        <p class="signal-ticker">{{ s.ticker }}</p>
+        <div class="signal-badge {{ card_class }}">
+          <i class="fas {{ icon }}"></i> {{ s.signal }}
+        </div>
+        <p class="signal-meta">Probability: <span>{{ (s.probability * 100)|int }}%</span></p>
+        <p class="signal-meta">Confidence: <span>{{ s.confidence }}</span></p>
+        <p class="signal-meta">Direction: <span>{{ arrow }} {{ s.direction }}</span></p>
+        <div class="prob-bar">
+          <div class="prob-fill {{ card_class }}" style="width: {{ (s.probability * 100)|int }}%"></div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <p style="margin-top: 1rem; font-size: 0.78rem; color: var(--dim);">
+      Probability &gt; 0.60 → LONG &nbsp;|&nbsp; Probability &lt; 0.40 → SHORT &nbsp;|&nbsp; 0.40–0.60 → NO_TRADE
+    </p>
+
+  </div>
+</section>
+
+<!-- ── BACKTEST METRICS ───────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Backtesting</p>
+    <h2 class="section-title">Strategy performance</h2>
+
+    {% set m = data.backtest['AAPL'] %}
+    <div class="metrics-grid">
+      <div class="metric-item">
+        <p class="metric-value">{{ (m.hit_rate * 100)|int }}%</p>
+        <p class="metric-label">Hit Rate</p>
+      </div>
+      <div class="metric-item">
+        <p class="metric-value">{{ "%.2f"|format(m.sharpe) }}</p>
+        <p class="metric-label">Sharpe Ratio</p>
+      </div>
+      <div class="metric-item">
+        <p class="metric-value">+{{ m.cumulative_return }}%</p>
+        <p class="metric-label">Cumulative Return</p>
+      </div>
+      <div class="metric-item">
+        <p class="metric-value">{{ m.trades }}</p>
+        <p class="metric-label">Trades Taken</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CHARTS ─────────────────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Visualisation</p>
+    <h2 class="section-title">Charts</h2>
+
+    <div class="chart-wrap" style="margin-bottom: 1.5rem;">
+      <p class="chart-title">Cumulative Returns (%)</p>
+      <canvas id="returnsChart" height="100"></canvas>
+    </div>
+
+    <div class="chart-wrap">
+      <p class="chart-title">Feature Importance — AAPL Model</p>
+      <canvas id="featureChart" height="120"></canvas>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PIPELINE ───────────────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Architecture</p>
+    <h2 class="section-title">ML pipeline</h2>
+
+    <div class="pipeline">
+      <span class="pipeline-step">Market Data</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">Feature Engineering</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">News Sentiment</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">XGBoost Model</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">Meta-labeling</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">Signal Generator</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">Backtest</span>
+    </div>
+
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em;
+                  text-transform: uppercase; margin-bottom: 0.75rem;">Features used</p>
+        <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.8; padding-left: 1rem; list-style: disc;">
+          <li>Multi-horizon returns (1d to 60d)</li>
+          <li>Technical indicators (RSI, MA crossovers, volatility)</li>
+          <li>Volume dynamics and momentum</li>
+          <li>Cross-asset signals (SPY, QQQ, VIX)</li>
+          <li>Market regime features</li>
+          <li>News sentiment (historical + Finnhub API)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em;
+                  text-transform: uppercase; margin-bottom: 0.75rem;">Model details</p>
+        <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.8; padding-left: 1rem; list-style: disc;">
+          <li>Separate XGBoost model per stock</li>
+          <li>Meta-labeling via Logistic Regression</li>
+          <li>Walk-forward validation (rolling splits)</li>
+          <li>Hyperparameter tuning with grid search</li>
+          <li>Threshold optimisation per confidence level</li>
+          <li>Daily automated retraining on Databricks</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const returnsData = {{ data.cumulative_returns | tojson }};
+  const featureData = {{ data.feature_importance | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

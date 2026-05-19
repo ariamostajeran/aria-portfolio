@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% block title %}Aria Mostajeran — ML Engineer{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+
+      <div class="hero-tag">
+        <i class="fas fa-map-marker-alt"></i>
+        Eindhoven, The Netherlands
+      </div>
+
+      <h1>Aria<br><span class="accent">Mostajeran</span></h1>
+
+      <p class="hero-bio">
+        MSc in Data Science &amp; AI (TU/e) with hands-on experience in deep learning,
+        time-series modelling, and end-to-end ML pipelines. Published researcher,
+        international robotics competitor, and builder of real systems — from biomedical AI
+        to quantitative trading.
+      </p>
+
+      <div class="hero-links">
+        <a href="https://github.com/ariamostajeran" target="_blank" rel="noopener" class="btn btn-primary">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/aria-mostajeran/" target="_blank" rel="noopener" class="btn btn-outline">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+        <a href="https://scholar.google.com/citations?user=sCp_3KQAAAAJ" target="_blank" rel="noopener" class="btn btn-outline">
+          <i class="fas fa-graduation-cap"></i> Scholar
+        </a>
+        <a href="mailto:ariamostajeran99@gmail.com" class="btn btn-outline">
+          <i class="fas fa-envelope"></i> Email
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ─────────────────────────────────────────────────── -->
+<section id="about" style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Who I am</h2>
+    <div class="grid-2">
+      <div class="card">
+        <p style="color: var(--muted); line-height: 1.8; font-size: 0.95rem;">
+          I build ML systems that work end-to-end — from raw data to deployed model.
+          My thesis reduced blood pressure estimation error to &lt;7 mmHg using transformer
+          and LSTM networks on PPG time-series data. My trading system generates daily
+          signals for AAPL, TSLA, and MSFT using XGBoost, walk-forward validation,
+          and news sentiment.
+        </p>
+      </div>
+      <div class="card">
+        <p style="color: var(--muted); line-height: 1.8; font-size: 0.95rem;">
+          Before data science, I competed in international robotics — placing 4th globally
+          at RoboCup 2017 in Nagoya, Japan. That background gave me a builder's mindset:
+          curious, fast-learning, and motivated by environments where data drives
+          real decisions.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ─────────────────────────────────────────────── -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">What I've worked on</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <p class="timeline-date">April 2026 — Present</p>
+        <p class="timeline-title">Research Collaboration</p>
+        <p class="timeline-org">Eindhoven University of Technology &mdash; Supervisor: Xi Long</p>
+        <ul class="timeline-desc">
+          <li>Developing a research paper on transformer-based architectures and knowledge distillation.</li>
+          <li>Targeting submission to a peer-reviewed ML / biomedical AI conference or journal.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">November 2024 — August 2025</p>
+        <p class="timeline-title">AI Researcher — Master Thesis</p>
+        <p class="timeline-org"><a href="https://smartqare.nl" target="_blank" rel="noopener" style="color:var(--accent);">smartQare</a></p>
+        <ul class="timeline-desc">
+          <li>Blood pressure estimation using attention transformer + LSTM on PPG (time-series) data from MIMIC-II.</li>
+          <li>Reduced MAE to &lt;7 mmHg on benchmark data and &lt;9 mmHg on company data.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">September 2022 — January 2023</p>
+        <p class="timeline-title">Neural Architecture Researcher</p>
+        <p class="timeline-org">Eindhoven University of Technology</p>
+        <ul class="timeline-desc">
+          <li>Designed an evolutionary algorithm to find optimal weight-agnostic neural network architectures.</li>
+          <li>Applied backpropagation on top — improved training accuracy by 30%.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">September 2021 — March 2022</p>
+        <p class="timeline-title">Software Engineering Intern</p>
+        <p class="timeline-org">Cafe Bazaar &mdash; Tehran, Iran</p>
+        <ul class="timeline-desc">
+          <li>Worked in a large-scale production environment using Linux, Kubernetes, Docker, and agile practices.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">January 2022 — April 2023</p>
+        <p class="timeline-title">Technical Committee Member</p>
+        <p class="timeline-org">RoboCup IrOpen &mdash; Tehran, Iran</p>
+        <ul class="timeline-desc">
+          <li>Reviewed 50+ technical submissions, identified gaps in Team Description Papers, qualified 30% of teams.</li>
+          <li>Coached 100+ junior participants during competition.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">September 2018 — January 2023</p>
+        <p class="timeline-title">Teaching Assistant</p>
+        <p class="timeline-org">Amirkabir University of Technology &mdash; Tehran, Iran</p>
+        <ul class="timeline-desc">
+          <li>TA for Algorithm Design, Data Structures, Robotics, Data Mining, and Algorithms.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">June 2017 &amp; September 2018</p>
+        <p class="timeline-title">2D Soccer Simulation Researcher</p>
+        <p class="timeline-org">RoboCup World Cup &mdash; Nagoya, Japan &amp; Leipzig, Germany</p>
+        <ul class="timeline-desc">
+          <li>Member of teams Fury and Cyrus — ranked 7th and 4th globally at the RoboCup World Cup.</li>
+          <li>Co-authored two Team Description Papers published in the RoboCup Symposium.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ──────────────────────────────────────────────── -->
+<section id="education">
+  <div class="container">
+    <p class="section-label">Education</p>
+    <h2 class="section-title">Academic background</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <p class="timeline-date">September 2023 — September 2025</p>
+        <p class="timeline-title" style="font-size:1.05rem; margin: 0.4rem 0 0.2rem;">MSc Data Science &amp; Artificial Intelligence</p>
+        <p class="timeline-org">Eindhoven University of Technology, The Netherlands</p>
+        <ul class="timeline-desc" style="margin-top: 0.5rem;">
+          <li>Decision Making &amp; Reinforcement Learning — 9/10</li>
+          <li>Machine Learning — 9/10</li>
+          <li>Generative AI Models — 9/10</li>
+          <li>Deep Learning — 8/10</li>
+          <li>Big Data Management</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <p class="timeline-date">September 2018 — January 2023</p>
+        <p class="timeline-title" style="font-size:1.05rem; margin: 0.4rem 0 0.2rem;">BSc Computer Engineering</p>
+        <p class="timeline-org">Amirkabir University of Technology, Tehran, Iran</p>
+        <ul class="timeline-desc" style="margin-top: 0.5rem;">
+          <li>Thesis: Navigation of a 2D soccer simulation agent using deep RL in a continuous action space.</li>
+          <li>Achieved 85% success rate using a DDPG model.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ─────────────────────────────────────────────────── -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">Technical toolkit</h2>
+
+    <div class="grid-2">
+      <div>
+        <div class="skills-group">
+          <p class="skills-group-label">Machine Learning &amp; DL</p>
+          <div class="tags">
+            <span class="tag">XGBoost</span><span class="tag">TensorFlow</span>
+            <span class="tag">PyTorch</span><span class="tag">Scikit-learn</span>
+            <span class="tag">Keras</span><span class="tag">Reinforcement Learning</span>
+            <span class="tag">Transformers</span><span class="tag">LSTM</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-label">Data &amp; Engineering</p>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">PySpark</span>
+            <span class="tag">Pandas</span><span class="tag">NumPy</span>
+            <span class="tag">SQL</span><span class="tag">Delta Lake</span>
+            <span class="tag">Databricks</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-label">Financial ML</p>
+          <div class="tags">
+            <span class="tag">Backtesting</span><span class="tag">Walk-forward Validation</span>
+            <span class="tag">Meta-labeling</span><span class="tag">Time-series Modelling</span>
+            <span class="tag">Options &amp; Derivatives</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="skills-group">
+          <p class="skills-group-label">Infrastructure &amp; Tools</p>
+          <div class="tags">
+            <span class="tag">Docker</span><span class="tag">Kubernetes</span>
+            <span class="tag">Git</span><span class="tag">Linux / Bash</span>
+            <span class="tag">GCP</span><span class="tag">YAML</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-label">Languages</p>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">C / C++</span>
+            <span class="tag">Java</span><span class="tag">SQL</span><span class="tag">LaTeX</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-label">Visualisation</p>
+          <div class="tags">
+            <span class="tag">Plotly / Dash</span><span class="tag">Matplotlib</span>
+            <span class="tag">Seaborn</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ───────────────────────────────────────────────── -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Things I've built</h2>
+
+    <!-- Featured project -->
+    <a href="/projects/stock-mlops" class="project-card featured" style="margin-bottom: 1.5rem;">
+      <p class="project-card-label">⭐ Featured &mdash; Live</p>
+      <p class="project-card-title">Stock MLOps — Trading Signal System</p>
+      <p class="project-card-desc">
+        End-to-end ML pipeline for AAPL, TSLA, and MSFT. XGBoost classification with meta-labeling,
+        walk-forward validation, news sentiment features, and daily automated Databricks pipelines.
+        Generates LONG / SHORT / NO_TRADE signals with confidence analysis and backtest metrics.
+      </p>
+      <div class="project-card-tech">
+        <span class="tech-tag">Python</span><span class="tech-tag">XGBoost</span>
+        <span class="tech-tag">PySpark</span><span class="tech-tag">Databricks</span>
+        <span class="tech-tag">Docker</span><span class="tech-tag">Flask</span>
+        <span class="tech-tag">Delta Lake</span><span class="tech-tag">Finnhub API</span>
+      </div>
+    </a>
+
+    <!-- Other projects grid -->
+    <div class="grid-3">
+
+      <div class="project-card">
+        <p class="project-card-label">Biomedical AI</p>
+        <p class="project-card-title">Blood Pressure Estimation</p>
+        <p class="project-card-desc">
+          Transformer + LSTM on PPG time-series data (MIMIC-II). Reduced MAE to &lt;7 mmHg
+          — thesis at smartQare &amp; TU/e.
+        </p>
+        <div class="project-card-tech">
+          <span class="tech-tag">PyTorch</span><span class="tech-tag">Transformers</span>
+          <span class="tech-tag">LSTM</span><span class="tech-tag">Time-series</span>
+        </div>
+      </div>
+
+      <a href="https://github.com/luca-mainardi/JBI100-Final-Project" target="_blank" rel="noopener" class="project-card">
+        <p class="project-card-label">Sports Analytics</p>
+        <p class="project-card-title">ScoutBall</p>
+        <p class="project-card-desc">
+          Football analytics tool — pipelines match data into radar charts, beeswarm plots,
+          and choropleth visualisations.
+        </p>
+        <div class="project-card-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">Plotly/Dash</span>
+          <span class="tech-tag">Data Viz</span>
+        </div>
+      </a>
+
+      <div class="project-card">
+        <p class="project-card-label">Reinforcement Learning</p>
+        <p class="project-card-title">RL Soccer Agent</p>
+        <p class="project-card-desc">
+          Navigation of a 2D soccer simulation agent using DDPG in a continuous
+          action space — 85% success rate (BSc thesis).
+        </p>
+        <div class="project-card-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">DDPG</span>
+          <span class="tech-tag">RoboCup</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-card-label">Generative AI</p>
+        <p class="project-card-title">GenAI Projects</p>
+        <p class="project-card-desc">
+          ARM, VAE, and transformer-based image captioning. CNN, GNN,
+          and character recognition experiments.
+        </p>
+        <div class="project-card-tech">
+          <span class="tech-tag">PyTorch</span><span class="tech-tag">VAE</span>
+          <span class="tech-tag">Transformers</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-card-label">Evolutionary AI</p>
+        <p class="project-card-title">Weight-Agnostic Neural Network</p>
+        <p class="project-card-desc">
+          Evolutionary algorithm to find optimal architectures, then backpropagation
+          on top — 30% accuracy improvement.
+        </p>
+        <div class="project-card-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">NAS</span>
+          <span class="tech-tag">Evolutionary Algo</span>
+        </div>
+      </div>
+
+      <a href="https://github.com/ariamostajeran" target="_blank" rel="noopener" class="project-card">
+        <p class="project-card-label">More</p>
+        <p class="project-card-title">See all on GitHub →</p>
+        <p class="project-card-desc">
+          Churn prediction, music app (Java), deep RL environment design,
+          and more.
+        </p>
+        <div class="project-card-tech">
+          <span class="tech-tag">github.com/ariamostajeran</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── AWARDS ─────────────────────────────────────────────────── -->
+<section id="awards">
+  <div class="container">
+    <p class="section-label">Recognition</p>
+    <h2 class="section-title">Awards &amp; certifications</h2>
+
+    <div class="grid-2">
+      <div>
+        <div class="award-item">
+          <span class="award-icon">🥇</span>
+          <div>
+            <p class="award-title">1st Place — Soccer Simulation 2D</p>
+            <p class="award-org">RoboCup Asia Pacific 2018, Kish, Iran</p>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-icon">🏅</span>
+          <div>
+            <p class="award-title">4th Place — Soccer Simulation 2D</p>
+            <p class="award-org">RoboCup World Cup 2017, Nagoya, Japan</p>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-icon">🎯</span>
+          <div>
+            <p class="award-title">Top 30 of 3,000+ applicants</p>
+            <p class="award-org">Trading Career Kickstart Program, Amsterdam</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="award-item">
+          <span class="award-icon">📜</span>
+          <div>
+            <p class="award-title">Machine Learning — Coursera</p>
+            <p class="award-org">+ Derivatives (Options &amp; Futures) · Introduction to Trading ML &amp; GCP</p>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-icon">📜</span>
+          <div>
+            <p class="award-title">Docker · Kubernetes · Bash Scripting</p>
+            <p class="award-org">KodeKloud</p>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-icon">📜</span>
+          <div>
+            <p class="award-title">Agentic AI · GenAI · RL · AI A-Z</p>
+            <p class="award-org">Udemy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
