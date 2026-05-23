@@ -13,3 +13,8 @@ def index():
 def stock_mlops():
     data = get_latest_signals()
     return render_template('stock_mlops.html', data=data)
+
+
+@main.route('/projects/scoutball')
+def scoutball():
+    return render_template('scoutball.html')

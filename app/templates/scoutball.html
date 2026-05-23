@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}ScoutBall — Aria Mostajeran{% endblock %}
+
+{% block head %}
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── PAGE HERO ──────────────────────────────────────────────── -->
+<section style="padding-bottom: 0;">
+  <div class="container">
+
+    <a href="/" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to portfolio
+    </a>
+
+    <p class="section-label">Data Visualisation · Sports Analytics · Football</p>
+    <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem;">
+      ScoutBall<br><span style="color: var(--accent);">FIFA World Cup 2022</span>
+    </h1>
+
+    <p style="color: var(--muted); max-width: 680px; line-height: 1.75; margin-bottom: 1.5rem;">
+      An interactive football scouting dashboard built for the FIFA World Cup 2022 dataset.
+      Filter players by position and performance metrics, compare up to three players on a radar chart,
+      explore global player distribution on a choropleth map, and dive into multi-dimensional stats
+      via parallel coordinates. Built as a group project at TU/e.
+    </p>
+
+    <div style="display:flex; flex-wrap:wrap; gap: 0.75rem; margin-bottom: 1rem;">
+      <a href="https://github.com/luca-mainardi/JBI100-Final-Project" target="_blank" rel="noopener" class="btn btn-primary">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </div>
+
+    <div class="project-card-tech" style="margin-bottom: 3rem;">
+      {% for tag in ['Python','Plotly / Dash','Pandas','FBref Data','Sports Analytics','Interactive Viz'] %}
+        <span class="tech-tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTROLS ───────────────────────────────────────────────── -->
+<section style="padding-top: 0; padding-bottom: 0;">
+  <div class="container">
+
+    <!-- Position tabs -->
+    <div style="display:flex; gap: 0.5rem; flex-wrap:wrap; margin-bottom: 1.5rem;">
+      <button class="pos-tab active" data-pos="FW">Forwards</button>
+      <button class="pos-tab" data-pos="MF">Midfielders</button>
+      <button class="pos-tab" data-pos="DF">Defenders</button>
+      <button class="pos-tab" data-pos="GK">Goalkeepers</button>
+    </div>
+
+    <!-- Age slider -->
+    <div style="margin-bottom: 1.5rem;">
+      <label style="font-size:0.8rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">
+        Age range: <span id="age-label">18 – 45</span>
+      </label>
+      <div style="display:flex; gap:1rem; align-items:center; margin-top:0.5rem;">
+        <input type="range" id="age-min" min="18" max="45" value="18" style="flex:1; accent-color:var(--accent);">
+        <input type="range" id="age-max" min="18" max="45" value="45" style="flex:1; accent-color:var(--accent);">
+      </div>
+    </div>
+
+    <!-- Stat sliders (6, dynamic per position) -->
+    <div id="stat-sliders" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:1rem; margin-bottom: 2rem;">
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PLAYER CARD + SWARM ────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Exploration</p>
+    <h2 class="section-title">Player overview</h2>
+
+    <div style="display:grid; grid-template-columns: 280px 1fr; gap: 1.5rem; align-items: start;">
+
+      <!-- Player card -->
+      <div id="player-card" class="card" style="min-height:220px;">
+        <p style="font-size:0.75rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem;">Selected Player</p>
+        <p id="pc-name" style="font-size:1.2rem; font-weight:800; color:var(--text); margin-bottom:0.5rem;">Click a dot to select</p>
+        <div id="pc-details" style="color:var(--muted); font-size:0.875rem; line-height:2;">
+          <span style="color:var(--dim);">Select a player from the swarm plot or radar chart.</span>
+        </div>
+      </div>
+
+      <!-- Swarm plot -->
+      <div class="chart-wrap">
+        <p class="chart-title">Overall Score Distribution <span style="font-size:0.75rem; color:var(--dim);">(click dot to select)</span></p>
+        <div id="swarm-chart" style="height:280px;"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PARALLEL COORDINATES ───────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Multi-dimensional</p>
+    <h2 class="section-title">Parallel coordinates</h2>
+    <div class="chart-wrap">
+      <div id="parallel-chart" style="height:400px;"></div>
+      <div id="parallel-legend" style="display:flex; gap:1.25rem; flex-wrap:wrap; margin-top:0.75rem; padding:0 0.25rem;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RADAR CHART ────────────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Comparison</p>
+    <h2 class="section-title">Radar — up to 3 players</h2>
+    <p style="font-size:0.82rem; color:var(--dim); margin-bottom:1rem;">Click dots in the swarm plot, click lines in the parallel chart, or search below to add players.</p>
+
+    <!-- Search bar -->
+    <div style="position:relative; max-width:400px; margin-bottom:1.5rem;">
+      <div style="position:relative;">
+        <i class="fas fa-search" style="position:absolute; left:0.85rem; top:50%; transform:translateY(-50%); color:var(--dim); font-size:0.85rem; pointer-events:none;"></i>
+        <input type="text" id="player-search" placeholder="Search player by name…"
+          style="width:100%; padding:0.55rem 1rem 0.55rem 2.2rem; background:var(--card);
+                 border:1px solid var(--border); border-radius:var(--radius-sm);
+                 color:var(--text); font-size:0.875rem; outline:none; transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--accent)'"
+          onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div id="search-dropdown"
+        style="display:none; position:absolute; top:calc(100% + 4px); left:0; right:0;
+               background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm);
+               max-height:220px; overflow-y:auto; z-index:50; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 280px; gap:1.5rem; align-items:start;">
+      <div class="chart-wrap">
+        <div id="radar-chart" style="height:400px;"></div>
+      </div>
+      <div>
+        <p style="font-size:0.75rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem;">Selected for radar</p>
+        <div id="radar-list" style="display:flex; flex-direction:column; gap:0.5rem;">
+          <span style="color:var(--dim); font-size:0.875rem;">No players selected yet.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CHOROPLETH ─────────────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Geography</p>
+    <h2 class="section-title">Players by country</h2>
+    <div class="chart-wrap">
+      <div id="choropleth-chart" style="height:420px;"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/scoutball.js') }}"></script>
+{% endblock %}

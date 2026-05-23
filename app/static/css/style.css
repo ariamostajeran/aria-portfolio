@@ -240,6 +240,16 @@ footer a { color: var(--accent); }
 .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--green-10); animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
+/* ── SCOUTBALL — POSITION TABS ──────────────────────────────── */
+.pos-tab {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.45rem 1.1rem;
+  font-size: 0.82rem; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: all 0.2s;
+}
+.pos-tab:hover  { border-color: var(--accent-30); color: var(--text); }
+.pos-tab.active { background: var(--accent-10); border-color: var(--accent); color: var(--accent); }
+
 /* ── RESPONSIVE ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .metrics-grid { grid-template-columns: repeat(2,1fr); }
