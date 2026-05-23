@@ -240,6 +240,14 @@ footer a { color: var(--accent); }
 .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--green-10); animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
+/* ── PROJECT PAGE FLAG ──────────────────────────────────────── */
+.project-page-flag {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--accent); background: var(--accent-10);
+  border: 1px solid var(--accent-30); border-radius: 999px;
+  padding: 0.2rem 0.6rem; white-space: nowrap; flex-shrink: 0;
+}
+
 /* ── SCOUTBALL — POSITION TABS ──────────────────────────────── */
 .pos-tab {
   background: var(--card); border: 1px solid var(--border);
