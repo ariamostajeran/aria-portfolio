@@ -94,7 +94,7 @@ async function sendMessage() {
   }
 
   removeTyping(typingEl);
-  const reply = data.response || 'No response received.';
+  const reply = data.response || data.answer || 'No response received.';
   appendBubble('bot', reply, true);
 
   history.push({ role: 'assistant', content: reply });
