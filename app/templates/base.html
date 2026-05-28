@@ -40,5 +40,26 @@
 
   {% block scripts %}{% endblock %}
 
+  <!-- ── CHAT WIDGET ─────────────────────────────────────────── -->
+  <button id="assistant-toggle" title="Ask about Aria">
+    <i class="fas fa-robot"></i>
+  </button>
+
+  <div id="assistant-panel">
+    <div class="ap-header">
+      <i class="fas fa-robot" style="color:var(--accent); font-size:1rem;"></i>
+      <p class="ap-header-title">Ask about <span>Aria</span></p>
+      <button class="ap-icon-btn" id="ap-new" title="New conversation"><i class="fas fa-rotate-right"></i></button>
+      <button class="ap-icon-btn" id="ap-close" title="Close"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="ap-messages" id="ap-messages"></div>
+    <div class="ap-input-row">
+      <input id="ap-input" type="text" placeholder="Ask anything about Aria…" autocomplete="off" />
+      <button id="ap-send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+
 </body>
 </html>

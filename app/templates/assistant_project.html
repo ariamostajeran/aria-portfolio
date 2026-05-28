@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}Portfolio Assistant — Aria Mostajeran{% endblock %}
+
+{% block content %}
+
+<!-- ── PAGE HERO ──────────────────────────────────────────────── -->
+<section style="padding-bottom: 0;">
+  <div class="container">
+
+    <a href="/" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to portfolio
+    </a>
+
+    <p class="section-label">Agentic AI · RAG · LLM Engineering</p>
+    <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem;">
+      Portfolio<br><span style="color: var(--accent);">Assistant</span>
+    </h1>
+
+    <p style="color: var(--muted); max-width: 680px; line-height: 1.75; margin-bottom: 1.5rem;">
+      A RAG-powered agentic AI that answers questions about my projects, skills, and experience.
+      Visitors ask natural-language questions; the agent retrieves relevant content from a
+      ChromaDB vector store of my CV and project documentation, then generates a grounded answer
+      using a ReAct reasoning loop — no hallucination, no static FAQ.
+    </p>
+
+    <div style="display:flex; flex-wrap:wrap; gap: 0.75rem; margin-bottom: 1rem;">
+      <a href="https://github.com/ariamostajeran/portfolio-assistant" target="_blank" rel="noopener" class="btn btn-primary">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+      <button onclick="document.getElementById('assistant-toggle').click()" class="btn btn-outline">
+        <i class="fas fa-robot"></i> Try the assistant
+      </button>
+    </div>
+
+    <div class="project-card-tech" style="margin-bottom: 3rem;">
+      {% for tag in ['Python','Flask','ChromaDB','BAAI/bge-small-en-v1.5','OpenAI GPT-3.5','ReAct Agent','RAG','Render'] %}
+        <span class="tech-tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ARCHITECTURE ───────────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Architecture</p>
+    <h2 class="section-title">How it works</h2>
+
+    <div class="pipeline" style="margin-bottom: 2.5rem;">
+      <span class="pipeline-step">CV + Project Docs</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">Markdown Chunks</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">bge-small Embeddings</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">ChromaDB</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">ReAct Agent</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">GPT-3.5</span>
+      <span class="pipeline-arrow">→</span>
+      <span class="pipeline-step">Answer</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Two vector collections</p>
+        <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.9; padding-left: 1rem; list-style: disc;">
+          <li><strong style="color:var(--text);">knowledge_base</strong> — CV + project markdown docs, chunked by <code>##</code> headings</li>
+          <li><strong style="color:var(--text);">code_base</strong> — portfolio source code, chunked at AST boundaries (Python) and function-level regex (JS)</li>
+          <li>Targeted retrieval: factual questions → knowledge_base &nbsp;|&nbsp; "show me the implementation" → code_base</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">ReAct agent loop</p>
+        <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.9; padding-left: 1rem; list-style: disc;">
+          <li>Text-based THOUGHT / ACTION / OBSERVATION format — model-agnostic, no framework lock-in</li>
+          <li>Three tools: <code>search_knowledge</code>, <code>get_cv_section</code>, <code>search_code</code></li>
+          <li>Full conversation history in every API call — multi-turn pronoun resolution works out of the box</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── KEY DECISIONS ──────────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Engineering</p>
+    <h2 class="section-title">Key technical decisions</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">ChromaDB version pinning</p>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.8;">
+          Must use <code>chromadb==0.5.23</code> with <code>numpy&lt;2.0</code>. ChromaDB 0.6+ has a Rust
+          backend that crashes on Databricks Python 3.12. ChromaDB 0.4.x uses <code>np.float_</code>
+          removed in NumPy 2.0. 0.5.23 is the only stable intersection.
+        </p>
+      </div>
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Databricks persistence</p>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.8;">
+          DBFS root is disabled on this workspace. Chroma runs in <code>/tmp/</code> (writable but
+          ephemeral — wiped on cluster restart). After every ingest, <code>persistence.py</code> zips
+          the SQLite store to <code>/Workspace/Users/…</code> and restores it on startup.
+        </p>
+      </div>
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Proxy route</p>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.8;">
+          The portfolio Flask app proxies <code>/api/assistant/chat</code> server-side to the assistant
+          service (URL stored in <code>ASSISTANT_API_URL</code> env var). The visitor never sees the
+          assistant's domain; CORS is avoided entirely.
+        </p>
+      </div>
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Client-side history</p>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.8;">
+          Conversation history is stored in <code>sessionStorage</code> and sent in full with every
+          request — no server-side session state. Survives page navigation; cleared on tab close
+          or "New conversation".
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DEPLOYMENT ─────────────────────────────────────────────── -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <p class="section-label">Infrastructure</p>
+    <h2 class="section-title">Deployment</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Two Render services</p>
+        <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.9; padding-left: 1rem; list-style: disc;">
+          <li><strong style="color:var(--text);">aria-portfolio</strong> — this site (Flask + static assets)</li>
+          <li><strong style="color:var(--text);">portfolio-assistant</strong> — agent backend (Flask + ChromaDB + embedding model)</li>
+          <li>Both auto-deploy from GitHub on push to main</li>
+          <li>Cold starts (~30–60s) handled with a "warming up" message and auto-retry in the chat widget</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Planned: Mistral 7B on Databricks</p>
+        <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.9; padding-left: 1rem; list-style: disc;">
+          <li>Current LLM: GPT-3.5-turbo (OpenAI API)</li>
+          <li>ReAct text format is model-agnostic — only the LLM client changes, not the agent logic</li>
+          <li>Target: Mistral 7B via Databricks Model Serving for a fully open-source stack</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
