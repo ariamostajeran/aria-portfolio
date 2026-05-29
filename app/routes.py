@@ -27,6 +27,18 @@ def assistant_project():
     return render_template('assistant_project.html')
 
 
+@main.route('/api/assistant/ping')
+def assistant_ping():
+    api_url = os.environ.get('ASSISTANT_API_URL', '').rstrip('/')
+    if not api_url:
+        return jsonify({'status': 'not configured'}), 503
+    try:
+        resp = http_requests.get(f"{api_url}/api/chat/status", timeout=10)
+        return jsonify(resp.json()), resp.status_code
+    except Exception:
+        return jsonify({'status': 'offline'}), 503
+
+
 @main.route('/api/assistant/chat', methods=['POST'])
 def assistant_chat():
     api_url = os.environ.get('ASSISTANT_API_URL', '').rstrip('/')
