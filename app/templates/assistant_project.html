@@ -17,10 +17,10 @@
     </h1>
 
     <p style="color: var(--muted); max-width: 680px; line-height: 1.75; margin-bottom: 1.5rem;">
-      A RAG-powered agentic AI that answers questions about my projects, skills, and experience.
-      Visitors ask natural-language questions; the agent retrieves relevant content from a
-      ChromaDB vector store of my CV and project documentation, then generates a grounded answer
-      using a ReAct reasoning loop — no hallucination, no static FAQ.
+      A RAG-powered AI assistant that answers questions about my projects, skills, experience, and source code.
+      Visitors ask natural-language questions; the assistant retrieves relevant content from two ChromaDB
+      collections (CV docs + GitHub source code) and generates a grounded answer with a single GPT-3.5 call
+      — no hallucination, no static FAQ.
     </p>
 
     <div style="display:flex; flex-wrap:wrap; gap: 0.75rem; margin-bottom: 1rem;">
@@ -33,7 +33,7 @@
     </div>
 
     <div class="project-card-tech" style="margin-bottom: 3rem;">
-      {% for tag in ['Python','Flask','ChromaDB','BAAI/bge-small-en-v1.5','OpenAI GPT-3.5','ReAct Agent','RAG','Render'] %}
+      {% for tag in ['Python','Flask','ChromaDB','OpenAI Embeddings','OpenAI GPT-3.5','RAG','Docker','Render'] %}
         <span class="tech-tag">{{ tag }}</span>
       {% endfor %}
     </div>
@@ -52,11 +52,11 @@
       <span class="pipeline-arrow">→</span>
       <span class="pipeline-step">Markdown Chunks</span>
       <span class="pipeline-arrow">→</span>
-      <span class="pipeline-step">bge-small Embeddings</span>
+      <span class="pipeline-step">OpenAI Embeddings</span>
       <span class="pipeline-arrow">→</span>
       <span class="pipeline-step">ChromaDB</span>
       <span class="pipeline-arrow">→</span>
-      <span class="pipeline-step">ReAct Agent</span>
+      <span class="pipeline-step">RAG Retrieval</span>
       <span class="pipeline-arrow">→</span>
       <span class="pipeline-step">GPT-3.5</span>
       <span class="pipeline-arrow">→</span>
@@ -73,11 +73,11 @@
         </ul>
       </div>
       <div class="card">
-        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">ReAct agent loop</p>
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Direct RAG context injection</p>
         <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.9; padding-left: 1rem; list-style: disc;">
-          <li>Text-based THOUGHT / ACTION / OBSERVATION format — model-agnostic, no framework lock-in</li>
-          <li>Three tools: <code>search_knowledge</code>, <code>get_cv_section</code>, <code>search_code</code></li>
-          <li>Full conversation history in every API call — multi-turn pronoun resolution works out of the box</li>
+          <li>Every query retrieves top-5 from both collections simultaneously — no tool routing needed</li>
+          <li>Context injected into system prompt; single GPT-3.5 call per message</li>
+          <li>Full conversation history in every API call — multi-turn memory works out of the box</li>
         </ul>
       </div>
     </div>
@@ -138,17 +138,17 @@
         <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Two Render services</p>
         <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.9; padding-left: 1rem; list-style: disc;">
           <li><strong style="color:var(--text);">aria-portfolio</strong> — this site (Flask + static assets)</li>
-          <li><strong style="color:var(--text);">portfolio-assistant</strong> — agent backend (Flask + ChromaDB + embedding model)</li>
+          <li><strong style="color:var(--text);">portfolio-assistant</strong> — assistant backend (Flask + ChromaDB + OpenAI API), Dockerised with Python 3.11</li>
           <li>Both auto-deploy from GitHub on push to main</li>
-          <li>Cold starts (~30–60s) handled with a "warming up" message and auto-retry in the chat widget</li>
+          <li>UptimeRobot pings both services every 5 minutes — no cold starts</li>
         </ul>
       </div>
       <div class="card">
-        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Planned: Mistral 7B on Databricks</p>
+        <p style="font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">OpenAI embeddings over local model</p>
         <ul style="color: var(--muted); font-size: 0.875rem; line-height: 1.9; padding-left: 1rem; list-style: disc;">
-          <li>Current LLM: GPT-3.5-turbo (OpenAI API)</li>
-          <li>ReAct text format is model-agnostic — only the LLM client changes, not the agent logic</li>
-          <li>Target: Mistral 7B via Databricks Model Serving for a fully open-source stack</li>
+          <li>Originally used BAAI/bge-small-en-v1.5 locally — exceeded Render's 512MB RAM limit at startup</li>
+          <li>Switched to <code>text-embedding-3-small</code> via API — memory dropped from ~400MB to ~100MB</li>
+          <li>Cost negligible for a portfolio site; 500+ code chunks + 93 knowledge chunks indexed</li>
         </ul>
       </div>
     </div>
